@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>BLOCK 1 — Chris</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-card: #141414;
+  --bg-elevated: #1c1c1c;
+  --border: #262626;
+  --text: #f5f5f5;
+  --text-dim: #8a8a8a;
+  --text-faint: #4a4a4a;
+  --accent: #ff4d1f;
+  --accent-dim: #b3361a;
+  --green: #4ade80;
+  --yellow: #fbbf24;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; overscroll-behavior: none; }
+body { padding: 16px 16px 100px; max-width: 600px; margin: 0 auto; }
+
+header { padding: 24px 0 16px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+.title { font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 0.9; letter-spacing: 0.02em; }
+.title .accent { color: var(--accent); }
+.subtitle { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 8px; }
+
+.tabs { display: flex; gap: 4px; background: var(--bg-card); padding: 5px; border-radius: 12px; margin-bottom: 20px; }
+.tab { flex: 1; padding: 14px 8px; background: transparent; border: none; color: var(--text-dim); font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.tab.active { background: var(--accent); color: #000; }
+
+.week-selector { display: flex; gap: 6px; margin-bottom: 20px; }
+.week-btn { flex: 1; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; }
+.week-btn.active { border-color: var(--accent); color: var(--accent); background: var(--bg-elevated); }
+
+.day-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+.day-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.day-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 0.04em; }
+.day-type { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.day-summary { font-size: 16px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4; }
+.day-actions { display: flex; gap: 8px; }
+.btn { flex: 1; padding: 14px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 8px; cursor: pointer; }
+.btn-primary { background: var(--accent); color: #000; border-color: var(--accent); }
+.btn-status { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 6px; }
+.status-done { background: var(--green); color: #000; }
+.status-compressed { background: var(--yellow); color: #000; }
+.status-skip { background: var(--text-faint); color: var(--text); }
+
+.session-detail { display: none; }
+.session-detail.active { display: block; }
+.session-header { margin-bottom: 20px; }
+.session-back { background: none; border: none; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; padding: 0; margin-bottom: 12px; }
+.session-back { background: none; border: none; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; cursor: pointer; padding: 0; margin-bottom: 14px; }
+.session-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; line-height: 1; }
+.session-meta { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
+
+.exercise { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+.ex-name { font-size: 22px; font-weight: 700; margin-bottom: 6px; line-height: 1.2; }
+.ex-target { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4; }
+.sets { display: flex; flex-direction: column; gap: 8px; }
+.set-row { display: grid; grid-template-columns: 36px 1fr 1fr 52px; gap: 8px; align-items: center; }
+.set-num { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--text-faint); text-align: center; }
+.set-input { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 14px 8px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; text-align: center; width: 100%; }
+.set-input:focus { outline: none; border-color: var(--accent); }
+.set-check { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; height: 52px; cursor: pointer; font-size: 22px; font-weight: 700; }
+.set-check.done { background: var(--green); border-color: var(--green); color: #000; }
+.set-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-faint); text-align: center; text-transform: uppercase; letter-spacing: 0.05em; }
+.notes-input { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 14px; border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 16px; margin-top: 12px; resize: vertical; min-height: 80px; }
+.notes-input:focus { outline: none; border-color: var(--accent); }
+
+.daily-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+.daily-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; margin-bottom: 16px; letter-spacing: 0.03em; }
+.daily-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.daily-field { display: flex; flex-direction: column; gap: 6px; }
+.daily-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.daily-input { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 14px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; }
+.toggle-row { display: flex; gap: 6px; }
+.toggle { flex: 1; padding: 14px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-dim); font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.05em; }
+.toggle.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+.principles { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+.principle { padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--text-dim); line-height: 1.5; }
+.principle:last-child { border: none; }
+.principle strong { color: var(--text); display: block; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
+
+.save-indicator { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green); color: #000; padding: 10px 20px; border-radius: 24px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.save-indicator.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title">BLOCK<span class="accent">.01</span></div>
+  <div class="subtitle">Apr 14 — May 12 · Recomp · 4 Weeks</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('train')">Train</button>
+  <button class="tab" onclick="showTab('daily')">Daily</button>
+  <button class="tab" onclick="showTab('plan')">Plan</button>
+</div>
+
+<div id="train-view">
+  <div class="week-selector" id="weekSelector"></div>
+  <div id="weekContent"></div>
+</div>
+
+<div id="daily-view" style="display:none">
+  <div class="daily-section">
+    <div class="daily-title">Daily Check-in</div>
+    <div class="daily-grid">
+      <div class="daily-field">
+        <div class="daily-label">Bodyweight (lbs)</div>
+        <input type="number" step="0.1" class="daily-input" id="bw">
+      </div>
+      <div class="daily-field">
+        <div class="daily-label">Sleep (hrs)</div>
+        <input type="number" step="0.5" class="daily-input" id="sleep">
+      </div>
+      <div class="daily-field">
+        <div class="daily-label">Sleep Quality 1-10</div>
+        <input type="number" min="1" max="10" class="daily-input" id="sq">
+      </div>
+      <div class="daily-field">
+        <div class="daily-label">Energy 1-10</div>
+        <input type="number" min="1" max="10" class="daily-input" id="energy">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="daily-label" style="margin-bottom:6px">Protein Target Hit (200g)</div>
+      <div class="toggle-row">
+        <button class="toggle" data-toggle="protein" data-val="yes">Yes</button>
+        <button class="toggle" data-toggle="protein" data-val="no">No</button>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="daily-label" style="margin-bottom:6px">AM Walk (30 min Z2)</div>
+      <div class="toggle-row">
+        <button class="toggle" data-toggle="walk" data-val="yes">Done</button>
+        <button class="toggle" data-toggle="walk" data-val="no">Skipped</button>
+      </div>
+    </div>
+    <textarea class="notes-input" id="dayNotes" placeholder="Notes — how you felt, curveballs, anything worth remembering..."></textarea>
+    <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="saveDaily()">Save Today</button>
+  </div>
+</div>
+
+<div id="plan-view" style="display:none">
+  <div class="principles">
+    <div class="daily-title">Operating Principles</div>
+    <div class="principle"><strong>01 · Anchored to days, not times</strong>Monday is Lower A whether you do it at 7am or 9:30pm.</div>
+    <div class="principle"><strong>02 · Full or compressed</strong>Every session has a 60-75min full version and a 30-40min compressed version. Compressed beats skipped.</div>
+    <div class="principle"><strong>03 · Morning walk is sacred</strong>30g protein + 30 min Z2 walk every morning. Untouched. Foundation of everything.</div>
+    <div class="principle"><strong>04 · Perfect vs good week</strong>Perfect = 4 lifts + 2 cardio + 1 rest. Good = 3 lifts + 1 cardio. Both move you forward.</div>
+    <div class="principle"><strong>05 · Lifting wins ties</strong>If you can only fit one thing on a lifting day, lift. If only one on a cardio day, walk is enough.</div>
+    <div class="principle"><strong>06 · Protein 200g, calories 2250</strong>Non-negotiable protein. Calories flex slightly with output.</div>
+    <div class="principle"><strong>07 · Progression</strong>Wk1 baseline · Wk2 +5lb · Wk3 push · Wk4 peak then taper into Banff</div>
+  </div>
+</div>
+
+<div class="save-indicator" id="saveInd">SAVED</div>
+
+<script>
+const PLAN = {
+  days: [
+    { id: 'mon', name: 'Monday', type: 'Lower A — Strength', summary: 'Squat focus + posterior chain + calves + core',
+      exercises: [
+        { name: 'Back Squat', target: '4 × 5 · rest 2-3min · +5lb each Mon', sets: 4 },
+        { name: 'Romanian Deadlift', target: '3 × 8 · DB or BB · rest 90s', sets: 3 },
+        { name: 'Walking Lunges', target: '3 × 10/leg · DB · rest 90s', sets: 3 },
+        { name: 'Standing Calf Raise', target: '4 × 15-20 · full stretch · rest 60s', sets: 4 },
+        { name: 'Hanging Knee Raise', target: '3 × 12-15 · use ab straps · rest 60s', sets: 3 },
+        { name: 'Finisher: 500m Row', target: 'moderate-hard · optional', sets: 1 }
+      ]},
+    { id: 'tue', name: 'Tuesday', type: 'Upper Pull + Core', summary: 'Pull-ups, rows, biceps, hanging leg raises',
+      exercises: [
+        { name: 'Pull-ups', target: '5 sets · max-2 reps each · rest 2min · straps if grip fails', sets: 5 },
+        { name: 'One-Arm DB Row', target: '4 × 10/side · heavy · rest 60s', sets: 4 },
+        { name: 'Chest-Supported DB Row', target: '3 × 12 · squeeze · rest 75s', sets: 3 },
+        { name: 'DB Hammer Curl', target: '3 × 10-12 · rest 60s', sets: 3 },
+        { name: 'Band Face Pulls', target: '3 × 15-20 · rest 45s', sets: 3 },
+        { name: 'Core: Leg Raise / Ab Wheel / Side Plank', target: '3 rounds · 12 / 10 / 30s ea side · 60s rest', sets: 3 }
+      ]},
+    { id: 'wed', name: 'Wednesday', type: 'Conditioning — Rower', summary: 'Intervals OR steady state · pick by feel',
+      exercises: [
+        { name: 'Warm-up', target: '5 min easy row', sets: 1 },
+        { name: 'Option A: 6 × 500m', target: 'hard pace · 90s rest between', sets: 6 },
+        { name: 'Option B: Steady State', target: '30-40 min · HR 130-145', sets: 1 },
+        { name: 'Cooldown', target: '5 min easy', sets: 1 }
+      ]},
+    { id: 'thu', name: 'Thursday', type: 'Lower B — Hypertrophy', summary: 'Front squat + Bulgarians + RDL + calves',
+      exercises: [
+        { name: 'Front Squat', target: '4 × 8 · upright torso · rest 2min', sets: 4 },
+        { name: 'DB Bulgarian Split Squat', target: '3 × 10/leg · rest 90s', sets: 3 },
+        { name: 'DB Romanian Deadlift', target: '3 × 12 · hamstring stretch · rest 75s', sets: 3 },
+        { name: 'Seated/Single-Leg Calf Raise', target: '4 × 15-20 · rest 60s', sets: 4 },
+        { name: 'Landmine Rotation', target: '3 × 10/side · rest 60s', sets: 3 }
+      ]},
+    { id: 'fri', name: 'Friday', type: 'Upper Push + Core', summary: 'OHP, dips, lateral raises, ab wheel',
+      exercises: [
+        { name: 'Standing Overhead Press (BB)', target: '4 × 6 · rest 2min · +2.5-5lb each Fri', sets: 4 },
+        { name: 'Weighted Dips (PRx)', target: '4 × 8-10 · add weight when easy · rest 90s', sets: 4 },
+        { name: 'DB Lateral Raise', target: '4 × 12-15 · strict · rest 60s', sets: 4 },
+        { name: 'Chest-Supported Rear Delt Fly', target: '3 × 15 · rest 60s', sets: 3 },
+        { name: 'Overhead Triceps Extension', target: '3 × 12 · rest 60s', sets: 3 },
+        { name: 'Core: Band Crunch / Pallof / Hollow Hold', target: '3 rounds · 15 / 12 ea / 30s', sets: 3 }
+      ]},
+    { id: 'sat', name: 'Saturday', type: 'Conditioning — SkiErg', summary: 'Lat & full-body finisher',
+      exercises: [
+        { name: 'Warm-up', target: '5 min easy ski', sets: 1 },
+        { name: 'Option A: 8 × 250m', target: 'hard · 60s rest between', sets: 8 },
+        { name: 'Option B: Steady State', target: '25-30 min moderate', sets: 1 },
+        { name: 'Cooldown', target: '5 min easy', sets: 1 }
+      ]},
+    { id: 'sun', name: 'Sunday', type: 'Rest', summary: 'Walk if you feel like it. Stretch. Recover. Eat.',
+      exercises: [] }
+  ]
+};
+
+let currentWeek = 1;
+let currentDay = null;
+let state = {};
+
+function load() {
+  try {
+    const saved = localStorage.getItem('block1');
+    if (saved) state = JSON.parse(saved);
+  } catch(e) {}
+}
+function save() {
+  try {
+    localStorage.setItem('block1', JSON.stringify(state));
+    const ind = document.getElementById('saveInd');
+    ind.classList.add('show');
+    setTimeout(() => ind.classList.remove('show'), 1200);
+  } catch(e) {}
+}
+function k(week, day, ex, set, field) { return `w${week}_${day}_${ex}_${set}_${field}`; }
+
+function renderWeekSelector() {
+  const sel = document.getElementById('weekSelector');
+  sel.innerHTML = '';
+  for (let i = 1; i <= 4; i++) {
+    const b = document.createElement('button');
+    b.className = 'week-btn' + (i === currentWeek ? ' active' : '');
+    b.textContent = 'WK ' + i;
+    b.onclick = () => { currentWeek = i; renderWeekSelector(); renderWeek(); };
+    sel.appendChild(b);
+  }
+}
+
+function renderWeek() {
+  const c = document.getElementById('weekContent');
+  c.innerHTML = '';
+  PLAN.days.forEach((d, idx) => {
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    const statusKey = `w${currentWeek}_${d.id}_status`;
+    const status = state[statusKey] || '';
+    let statusBadge = '';
+    if (status === 'full') statusBadge = '<span class="btn-status status-done">DONE</span>';
+    else if (status === 'compressed') statusBadge = '<span class="btn-status status-compressed">COMPRESSED</span>';
+    else if (status === 'skip') statusBadge = '<span class="btn-status status-skip">SKIPPED</span>';
+    card.innerHTML = `
+      <div class="day-header"><div class="day-name">${d.name}</div>${statusBadge}</div>
+      <div class="day-type">${d.type}</div>
+      <div class="day-summary">${d.summary}</div>
+      ${d.exercises.length ? `<div class="day-actions"><button class="btn btn-primary" onclick="openSession('${d.id}')">Open Session</button></div>` : ''}
+    `;
+    c.appendChild(card);
+  });
+}
+
+function openSession(dayId) {
+  const day = PLAN.days.find(d => d.id === dayId);
+  currentDay = dayId;
+  const c = document.getElementById('weekContent');
+  c.innerHTML = `
+    <div class="session-detail active">
+      <div class="session-header">
+        <button class="session-back" onclick="renderWeek()">← BACK TO WEEK ${currentWeek}</button>
+        <div class="session-title">${day.name.toUpperCase()}</div>
+        <div class="session-meta">WK ${currentWeek} · ${day.type}</div>
+      </div>
+      ${day.exercises.map((ex, exIdx) => `
+        <div class="exercise">
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-target">${ex.target}</div>
+          <div class="sets">
+            <div class="set-row">
+              <div class="set-label"></div>
+              <div class="set-label">Weight</div>
+              <div class="set-label">Reps</div>
+              <div class="set-label">✓</div>
+            </div>
+            ${Array.from({length: ex.sets}, (_, sIdx) => {
+              const wKey = k(currentWeek, dayId, exIdx, sIdx, 'w');
+              const rKey = k(currentWeek, dayId, exIdx, sIdx, 'r');
+              const dKey = k(currentWeek, dayId, exIdx, sIdx, 'd');
+              return `<div class="set-row">
+                <div class="set-num">${sIdx + 1}</div>
+                <input type="text" class="set-input" value="${state[wKey] || ''}" onchange="state['${wKey}']=this.value;save()">
+                <input type="text" class="set-input" value="${state[rKey] || ''}" onchange="state['${rKey}']=this.value;save()">
+                <button class="set-check ${state[dKey] ? 'done' : ''}" onclick="state['${dKey}']=!state['${dKey}'];this.classList.toggle('done');save()">${state[dKey] ? '✓' : ''}</button>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      `).join('')}
+      <textarea class="notes-input" placeholder="Session notes..." onchange="state['w${currentWeek}_${dayId}_notes']=this.value;save()">${state[`w${currentWeek}_${dayId}_notes`] || ''}</textarea>
+      <div style="display:flex;gap:6px;margin-top:12px">
+        <button class="btn" onclick="setStatus('full')">Mark Full</button>
+        <button class="btn" onclick="setStatus('compressed')">Compressed</button>
+        <button class="btn" onclick="setStatus('skip')">Skipped</button>
+      </div>
+    </div>
+  `;
+}
+
+function setStatus(s) {
+  state[`w${currentWeek}_${currentDay}_status`] = s;
+  save();
+  renderWeek();
+}
+
+function showTab(t) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('train-view').style.display = t === 'train' ? 'block' : 'none';
+  document.getElementById('daily-view').style.display = t === 'daily' ? 'block' : 'none';
+  document.getElementById('plan-view').style.display = t === 'plan' ? 'block' : 'none';
+}
+
+function todayKey() {
+  const d = new Date();
+  return `daily_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
+}
+function loadDaily() {
+  const tk = todayKey();
+  const d = state[tk] || {};
+  document.getElementById('bw').value = d.bw || '';
+  document.getElementById('sleep').value = d.sleep || '';
+  document.getElementById('sq').value = d.sq || '';
+  document.getElementById('energy').value = d.energy || '';
+  document.getElementById('dayNotes').value = d.notes || '';
+  document.querySelectorAll('[data-toggle]').forEach(b => {
+    b.classList.toggle('active', d[b.dataset.toggle] === b.dataset.val);
+  });
+}
+function saveDaily() {
+  const tk = todayKey();
+  const d = state[tk] || {};
+  d.bw = document.getElementById('bw').value;
+  d.sleep = document.getElementById('sleep').value;
+  d.sq = document.getElementById('sq').value;
+  d.energy = document.getElementById('energy').value;
+  d.notes = document.getElementById('dayNotes').value;
+  state[tk] = d;
+  save();
+}
+
+document.querySelectorAll('[data-toggle]').forEach(b => {
+  b.addEventListener('click', () => {
+    const tg = b.dataset.toggle;
+    document.querySelectorAll(`[data-toggle="${tg}"]`).forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const tk = todayKey();
+    state[tk] = state[tk] || {};
+    state[tk][tg] = b.dataset.val;
+    save();
+  });
+});
+
+load();
+renderWeekSelector();
+renderWeek();
+loadDaily();
+</script>
+</body>
+</html>
