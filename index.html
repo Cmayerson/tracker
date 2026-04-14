@@ -31,12 +31,12 @@ header { padding: 24px 0 16px; border-bottom: 1px solid var(--border); margin-bo
 .subtitle { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 8px; }
 
 .tabs { display: flex; gap: 4px; background: var(--bg-card); padding: 5px; border-radius: 12px; margin-bottom: 20px; }
-.tab { flex: 1; padding: 14px 8px; background: transparent; border: none; color: var(--text-dim); font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.tab { flex: 1; padding: 14px 4px; background: transparent; border: none; color: var(--text-dim); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
 .tab.active { background: var(--accent); color: #000; }
 
 .week-selector { display: flex; gap: 6px; margin-bottom: 20px; }
-.week-btn { flex: 1; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; }
-.week-btn.active { border-color: var(--accent); color: var(--accent); background: var(--bg-elevated); }
+.week-btn { flex: 1; padding: 14px; background: var(--bg-card); border: 2px solid var(--border); color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.week-btn.active { border-color: var(--accent); color: #000; background: var(--accent); box-shadow: 0 0 0 2px rgba(255, 77, 31, 0.25); }
 
 .day-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
 .day-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
@@ -76,9 +76,10 @@ header { padding: 24px 0 16px; border-bottom: 1px solid var(--border); margin-bo
 .daily-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
 .daily-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; margin-bottom: 16px; letter-spacing: 0.03em; }
 .daily-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.daily-field { display: flex; flex-direction: column; gap: 6px; }
+.daily-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .daily-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
-.daily-input { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 14px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; }
+.daily-input { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 14px 10px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; width: 100%; min-width: 0; text-align: center; }
+.daily-input:focus { outline: none; border-color: var(--accent); }
 .toggle-row { display: flex; gap: 6px; }
 .toggle { flex: 1; padding: 14px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-dim); font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.05em; }
 .toggle.active { background: var(--accent); color: #000; border-color: var(--accent); }
@@ -90,6 +91,21 @@ header { padding: 24px 0 16px; border-bottom: 1px solid var(--border); margin-bo
 
 .save-indicator { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green); color: #000; padding: 10px 20px; border-radius: 24px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 .save-indicator.show { opacity: 1; }
+
+.history-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 10px; }
+.history-date { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.03em; margin-bottom: 4px; }
+.history-day { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+.history-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin-bottom: 12px; }
+.history-stat { display: flex; flex-direction: column; gap: 2px; }
+.history-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+.history-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: var(--text); }
+.history-stat-val.empty { color: var(--text-faint); font-weight: 400; }
+.history-toggles { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.history-pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; padding: 5px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+.history-pill.yes { background: var(--green); color: #000; }
+.history-pill.no { background: var(--text-faint); color: var(--text); }
+.history-notes { font-size: 14px; color: var(--text-dim); line-height: 1.4; padding-top: 10px; border-top: 1px solid var(--border); }
+.history-empty { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 15px; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -102,6 +118,7 @@ header { padding: 24px 0 16px; border-bottom: 1px solid var(--border); margin-bo
 <div class="tabs">
   <button class="tab active" onclick="showTab('train')">Train</button>
   <button class="tab" onclick="showTab('daily')">Daily</button>
+  <button class="tab" onclick="showTab('history')">History</button>
   <button class="tab" onclick="showTab('plan')">Plan</button>
 </div>
 
@@ -148,6 +165,10 @@ header { padding: 24px 0 16px; border-bottom: 1px solid var(--border); margin-bo
     <textarea class="notes-input" id="dayNotes" placeholder="Notes — how you felt, curveballs, anything worth remembering..."></textarea>
     <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="saveDaily()">Save Today</button>
   </div>
+</div>
+
+<div id="history-view" style="display:none">
+  <div id="historyContent"></div>
 </div>
 
 <div id="plan-view" style="display:none">
@@ -333,7 +354,9 @@ function showTab(t) {
   event.target.classList.add('active');
   document.getElementById('train-view').style.display = t === 'train' ? 'block' : 'none';
   document.getElementById('daily-view').style.display = t === 'daily' ? 'block' : 'none';
+  document.getElementById('history-view').style.display = t === 'history' ? 'block' : 'none';
   document.getElementById('plan-view').style.display = t === 'plan' ? 'block' : 'none';
+  if (t === 'history') renderHistory();
 }
 
 function todayKey() {
@@ -375,6 +398,71 @@ document.querySelectorAll('[data-toggle]').forEach(b => {
     save();
   });
 });
+
+function renderHistory() {
+  const container = document.getElementById('historyContent');
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  // Find all daily_ keys, parse dates, sort newest first
+  const entries = Object.keys(state)
+    .filter(k => k.startsWith('daily_'))
+    .map(k => {
+      const parts = k.replace('daily_', '').split('_').map(Number);
+      return { key: k, date: new Date(parts[0], parts[1] - 1, parts[2]), data: state[k] || {} };
+    })
+    .filter(e => !isNaN(e.date.getTime()))
+    .sort((a, b) => b.date - a.date);
+
+  if (entries.length === 0) {
+    container.innerHTML = '<div class="history-empty">No daily check-ins logged yet.<br>Fill out the Daily tab and your entries will show up here.</div>';
+    return;
+  }
+
+  const fmtStat = (val, suffix = '') => {
+    if (val === undefined || val === null || val === '') return '<span class="history-stat-val empty">—</span>';
+    return `<span class="history-stat-val">${val}${suffix}</span>`;
+  };
+
+  container.innerHTML = entries.map(e => {
+    const d = e.data;
+    const dateStr = `${monthNames[e.date.getMonth()]} ${e.date.getDate()}`;
+    const dayStr = dayNames[e.date.getDay()];
+
+    let pills = '';
+    if (d.protein === 'yes') pills += '<span class="history-pill yes">Protein ✓</span>';
+    else if (d.protein === 'no') pills += '<span class="history-pill no">Protein ✗</span>';
+    if (d.walk === 'yes') pills += '<span class="history-pill yes">Walk ✓</span>';
+    else if (d.walk === 'no') pills += '<span class="history-pill no">Walk ✗</span>';
+
+    return `
+      <div class="history-card">
+        <div class="history-date">${dateStr}</div>
+        <div class="history-day">${dayStr}</div>
+        <div class="history-stats">
+          <div class="history-stat">
+            <div class="history-stat-label">Bodyweight</div>
+            ${fmtStat(d.bw, ' lb')}
+          </div>
+          <div class="history-stat">
+            <div class="history-stat-label">Sleep</div>
+            ${fmtStat(d.sleep, ' hr')}
+          </div>
+          <div class="history-stat">
+            <div class="history-stat-label">Sleep Quality</div>
+            ${fmtStat(d.sq, '/10')}
+          </div>
+          <div class="history-stat">
+            <div class="history-stat-label">Energy</div>
+            ${fmtStat(d.energy, '/10')}
+          </div>
+        </div>
+        ${pills ? `<div class="history-toggles">${pills}</div>` : ''}
+        ${d.notes ? `<div class="history-notes">${d.notes.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
 
 load();
 renderWeekSelector();
